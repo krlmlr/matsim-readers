@@ -2,6 +2,7 @@ import gzip
 import xml.sax
 import sys, sqlite3
 import time
+import functools
 
 class EventsReader(xml.sax.ContentHandler):
 	ATTRIBUTES = ('event_id', 'time', 'type', 'link', 'vehicle', 'legMode')
@@ -31,16 +32,21 @@ class EventsReader(xml.sax.ContentHandler):
 	@staticmethod
 	def make_values():
 		return ', '.join(['?'] * len(EventsReader.ATTRIBUTES))
+	
+	@staticmethod
+	@functools.lru_cache(maxsize=1)
+	def make_query():
+		fields = EventsReader.make_fields()
+		values = EventsReader.make_values()
+
+		query = 'insert into _events (%s) values (%s)' % (fields, values)
+		return query
 
 	def startElement(self, name, attributes):
 		if not name == 'event': return
 		if not attributes['type'] in ['entered link']: return
 
-		fields = EventsReader.make_fields()
-		values = EventsReader.make_values()
-
-		query = 'insert into _events (%s) values (%s)' % (fields, values)
-		self.cursor.execute(query, self.get_values(attributes))
+		self.cursor.execute(EventsReader.make_query(), self.get_values(attributes))
 		self.count += 1
 
 		if self.display + 1.0 < time.time():
