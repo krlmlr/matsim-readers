@@ -4,6 +4,16 @@ import sys, sqlite3
 import time
 import functools
 
+class TransparentDecompressionStream:
+	@staticmethod
+	def make(file_name):
+		if file_name.endswith('.gz'):
+			stream = gzip.open(file_name)
+		else:
+			stream = open(file_name)
+
+		return stream
+
 class EventsReader(xml.sax.ContentHandler):
 	ATTRIBUTES = ('event_id', 'time', 'type', 'link', 'vehicle', 'legMode')
 	TYPES = ('integer primary key', 'real', 'text', 'text', 'text', 'text')
@@ -78,7 +88,7 @@ if __name__ == '__main__':
 	print('Reading events ...\n')
 
 	reader = EventsReader(cursor)
-	with gzip.open(str(source)) as f:
+	with TransparentDecompressionStream.make(str(source)) as f:
 		xml.sax.parse(f, reader)
 
 	connection.commit()
