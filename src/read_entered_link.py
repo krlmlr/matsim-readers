@@ -42,7 +42,7 @@ class EventsReader(xml.sax.ContentHandler):
 	@staticmethod
 	def make_values():
 		return ', '.join(['?'] * len(EventsReader.ATTRIBUTES))
-	
+
 	@staticmethod
 	@functools.lru_cache(maxsize=1)
 	def make_query():
@@ -79,7 +79,7 @@ if __name__ == '__main__':
 	print('Will write to:')
 	print('	%s' % destination)
 	print('')
-	
+
 	connection = sqlite3.connect(str(destination))  # @UndefinedVariable
 	cursor = connection.cursor()
 
