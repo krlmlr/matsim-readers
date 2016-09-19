@@ -67,16 +67,6 @@ if __name__ == '__main__':
 	cursor = connection.cursor()
 
 	cursor.execute('create table _events (%s)' % EventsReader.make_type_fields())
-	cursor.execute("""
-		create table _activities (
-			activity_id integer primary key,
-			person text,
-			start_id integer,
-			end_id integer,
-			start_time real,
-			end_time real,
-			link text,
-			act_type text)""")
 
 	print('Reading events ...\n')
 
