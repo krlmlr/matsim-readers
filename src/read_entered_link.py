@@ -85,6 +85,7 @@ if __name__ == '__main__':
 	final_table = '%s_%s' % (table, suffix)
 
 	connection = sqlite3.connect(str(destination))  # @UndefinedVariable
+	connection.isolation_level = "EXCLUSIVE"
 	cursor = connection.cursor()
 
 	cursor.execute('drop table if exists %s' % temp_table)
