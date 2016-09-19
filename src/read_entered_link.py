@@ -100,11 +100,8 @@ if __name__ == '__main__':
 
 	print('\nFinished creating indexes!\n')
 
-	cursor.execute('select min(time) from _events')
-	sim_start_time = cursor.fetchone()[0]
-
-	cursor.execute('select max(time) from _events')
-	sim_end_time = cursor.fetchone()[0]
+	cursor.execute('select min(time), max(time) from _events')
+	[sim_start_time, sim_end_time] = cursor.fetchone()
 
 	print('Simulation start time: %f' % sim_start_time)
 	print('Simulation end time: %f\n' % sim_end_time)
