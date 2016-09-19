@@ -24,10 +24,7 @@ class EventsReader(xml.sax.ContentHandler):
 		self.count = 0
 
 	def get_values(self, attributes):
-		values = []
-		for attr in EventsReader.ATTRIBUTES:
-			values.append(attributes[attr] if attr in attributes else None)
-		return values
+		return [(attributes[attr] if attr in attributes else None) for attr in EventsReader.ATTRIBUTES]
 
 	@staticmethod
 	def make_type_fields():
