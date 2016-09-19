@@ -97,6 +97,7 @@ if __name__ == '__main__':
 
 	cursor.execute('create index time on _events (time)')
 	cursor.execute('create index link on _events (link)')
+	connection.commit()
 
 	print('\nFinished creating indexes!\n')
 
