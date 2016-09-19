@@ -85,6 +85,11 @@ if __name__ == '__main__':
 
 	print('\nFinished reading %d events!\n' % reader.count)
 
+	cursor.execute('create index time on _events (time)')
+	cursor.execute('create index link on _events (link)')
+
+	print('\nFinished creating indexes!\n')
+
 	cursor.execute('select min(time) from _events')
 	sim_start_time = cursor.fetchone()[0]
 
