@@ -49,9 +49,10 @@ class EventsReader(xml.sax.ContentHandler):
 		self.cursor.execute(EventsReader.make_query(), self.get_values(attributes))
 		self.count += 1
 
-		if self.display + 1.0 < time.time():
-			print('   Read %d events ...' % self.count)
-			self.display = time.time()
+		if (self.count % 1000) == 0:
+			if self.display + 1.0 < time.time():
+				print('   Read %d events ...' % self.count)
+				self.display = time.time()
 
 if __name__ == '__main__':
 	if len(sys.argv) < 4:
