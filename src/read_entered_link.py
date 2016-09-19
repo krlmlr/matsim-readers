@@ -63,7 +63,7 @@ if __name__ == '__main__':
 	print('	%s' % destination)
 	print('')
 	
-	connection = sqlite3.connect(str(destination))
+	connection = sqlite3.connect(str(destination))  # @UndefinedVariable
 	cursor = connection.cursor()
 
 	cursor.execute('create table _events (%s)' % EventsReader.make_type_fields())
