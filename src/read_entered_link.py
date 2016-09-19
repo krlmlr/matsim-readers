@@ -80,10 +80,16 @@ if __name__ == '__main__':
 	print('	%s' % destination)
 	print('')
 
+	table = 'events'
+	temp_table = '_%s' % table
+	final_table = '%s_%s' % (table, suffix)
+
 	connection = sqlite3.connect(str(destination))  # @UndefinedVariable
 	cursor = connection.cursor()
 
-	cursor.execute('create table _events (%s)' % EventsReader.make_type_fields())
+	cursor.execute('drop table if exists %s' % temp_table)
+	cursor.execute('drop table if exists %s' % final_table)
+	cursor.execute('create table %s (%s)' % (temp_table, EventsReader.make_type_fields()))
 
 	print('Reading events ...\n')
 
@@ -95,8 +101,8 @@ if __name__ == '__main__':
 
 	print('\nFinished reading %d events!\n' % reader.count)
 
-	cursor.execute('create index time on _events (time)')
-	cursor.execute('create index link on _events (link)')
+	cursor.execute('create index %s_time_%s on _events (time)' % (table, suffix))
+	cursor.execute('create index %s_link_%s on _events (link)' % (table, suffix))
 	connection.commit()
 
 	print('\nFinished creating indexes!\n')
