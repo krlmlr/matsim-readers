@@ -21,8 +21,8 @@ class EventsReader(xml.sax.ContentHandler):
 	@staticmethod
 	def make_type_fields():
 		return ', '.join([
-			'%s %s' % (name, type)
-			for type, name in zip(EventsReader.TYPES, EventsReader.ATTRIBUTES)])
+			'%s %s' % (name, type_)
+			for type_, name in zip(EventsReader.TYPES, EventsReader.ATTRIBUTES)])
 
 	@staticmethod
 	def make_fields():
